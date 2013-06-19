@@ -3,11 +3,12 @@ package fi.foyt.coops;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.methods.HttpRequestBase;
 
 import fi.foyt.coops.model.AccessToken;
 import fi.foyt.coops.model.CompactUser;
@@ -330,7 +331,8 @@ public class CoOpsNode extends CoOps {
       .append(URLEncoder.encode(refreshToken, "UTF-8"))
       .append("&grant_type=refresh_token")
       .toString();
-    return objectFromJson(AccessToken.class, doPostRequest("POST", "/oauth2/token", body, "application/x-www-form-urlencoded", new ClientPasswordAuth(clientId, clientSecret)));
+    
+    return objectFromJson(AccessToken.class, getIoHandler().doPostRequest(getURI("/oauth2/token"), body, "application/x-www-form-urlencoded", new ClientPasswordAuth(clientId, clientSecret)));
   }
   
   private String fileId;
@@ -345,10 +347,12 @@ public class CoOpsNode extends CoOps {
       byte[] bytes = new StringBuilder().append(clientId).append(':').append(clientSecret).toString().getBytes();
       this.encoded = Base64.encodeBase64String(bytes);
     }
-
+    
     @Override
-    public void authenticateRequest(HttpRequestBase request) {
-      request.setHeader("Authorization", "Basic " + this.encoded);
+    public Map<String, String> getHeaders() {
+      Map<String, String> result = new HashMap<String, String>();
+      result.put("Authorization", "Basic " + this.encoded);
+      return result;
     }
 
     private String encoded;
@@ -362,10 +366,12 @@ public class CoOpsNode extends CoOps {
     public BearerAuth(String accessToken) {
       this.accessToken = accessToken;
     }
-
+    
     @Override
-    public void authenticateRequest(HttpRequestBase request) {
-      request.setHeader("Authorization", "Bearer " + this.accessToken);
+    public Map<String, String> getHeaders() {
+      Map<String, String> result = new HashMap<String, String>();
+      result.put("Authorization", "Bearer " + this.accessToken);
+      return result;
     }
 
     private String accessToken;
