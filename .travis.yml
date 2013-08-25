@@ -3,8 +3,8 @@ language: java
 env:
   global:
     - secure: "A2eTgU2l8t+ubPgBhT556TI1lokJY4rtPQE7XEGk3zTnyh70Ro5r30Dm/A3P\nr2a4Fn1dWG+tRkDwk/tKhvBmZ15UGaMY4up3NAMbGdKstJMV89r6dVkYcas7\nYAyLJi/KPXt66iuFaX3Hzsg521f3x5Sw/qV3s5Ot/EVbdMLUHNA="
-    - secure: "NQQbxcBO4AwTvq5+6HvH0tde+WAwdKzU4Dab643DGwOc6A/s0MJpPMkJ7r+Q\ncJjlfY+xNZQUtOFyxiT8BWFztBF/lNbUJucvCO5rvuD8Wi3s/8NWcr1HMa6C\nGb5dlUhIXpki7ZpMPRT0NvhtgUX9BSRdeh8noRm3jLIu5bCM6cI="
-
+    - secure: "heUWICMwovhcNdyxAU/9hABZEfh5tuyZL/FvbWIfday/NFlaTfbOix/oyyBW\nnKD14/CgHEG75Zv/knUjC9C5DCu/JmK455gzWkl91SzcNtM8HX4z2kUVMnJS\nvWPP2BiNklXc0ETjWwmJodAH9bJqDbABrj4au3zUbxc657Zg27c="
+    
 after_success:
   - python travis/addServer.py
   - mvn clean deploy --settings ~/.m2/mySettings.xml
